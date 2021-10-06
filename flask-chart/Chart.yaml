@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Web App chart
+name: flask-chart
+version: 0.1.0

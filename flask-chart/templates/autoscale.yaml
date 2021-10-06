@@ -1,0 +1,16 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: alf-autoscaler
+spec:
+  maxReplicas: {{ .Values.maxReplicas }}
+  minReplicas: {{ .Values.minReplicas }}
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: {{ template "flask-chart.fullname" . }}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 70

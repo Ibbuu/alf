@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "flask-chart.fullname" . }}
+  labels:
+    app: {{ template "flask-chart.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "flask-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "flask-chart.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      restartPolicy: Always
+      initContainers:
+        - name: check-db
+          image: busybox
+          command: ['sh', '-c', 'until nslookup alfdb; do echo waiting for alfdb; sleep 2; done;']
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: PORT
+            value: "{{ .Values.service.internalPort }}"
+          - name: DB_HOST
+            value: alfdb
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: alf-configmap
+                key: user
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-pass
+                key: password
+          - name: DB_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: alf-configmap
+                key: database
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.service.internalPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.internalPort }}
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

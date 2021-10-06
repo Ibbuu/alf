@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alf-configmap
+data:
+  user: {{ .Values.user }}
+  database: {{ .Values.database }}
+  
