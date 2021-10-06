@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.6
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql-dump:/docker-entrypoint-initdb.d
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=changeit
+      - MYSQL_DATABASE=alf 
+    ports:
+      - 3306:3306
+
+  alf:
+    depends_on:
+      - db
+    image: ibbuu/alf
+    ports:
+      - "9000:5000"
+    restart: always
+    environment:
+      - DB_USER=root
+      - DB_PASSWORD=changeit
+      - DB_DATABASE=alf
+      - DB_HOST=db
+volumes:
+  db_data: {}
