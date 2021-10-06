@@ -59,8 +59,8 @@ spec:
               port: {{ .Values.service.internalPort }}
           resources:
             requests:
-              memory: "64Mi"
-              cpu: "250m"
+              memory: {{ .Values.requests.memory }}
+              cpu: {{ .Values.requests.cpu }}
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: {{ .Values.limits.memory }}
+              cpu: {{ .Values.limits.cpu }}

@@ -6,6 +6,12 @@ maxReplicas: 10
 minReplicas: 4
 user: root
 database: alf
+requests:
+  memory: "512Mi"
+  cpu: "500m"
+limits:
+  memory: "1024Mi"
+  cpu: "1000m"
 image:
   repository: ibbuu/alf
   tag: latest
