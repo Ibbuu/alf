@@ -7,6 +7,7 @@ For Kubernetes deployment, application can be reached on public ip of load balan
 The health check is configured on /healthz route.
 
 Prerequisites for Kubernetes deployment
+
     1. helm 3 installed
     
     2. kubectl installed
@@ -16,6 +17,7 @@ Prerequisites for Kubernetes deployment
     4. nginx ingress controller installed (Installtion steps provided below)
 
 Metrics server Installation
+
     1. kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
     
     2. Edit the deployment using "kubectl edit deploy -n kube-system metrics-server"
@@ -27,6 +29,7 @@ Metrics server Installation
        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
 
 Ingress controller Installation
+
     1. NAMESPACE=ingress-basic
     2. helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
     
@@ -36,6 +39,7 @@ Ingress controller Installation
 
 
 Steps to deploy on Kubernetes
+
     1. unzip the zipped source code folder
     
     2. from the root, run ./deploy-chart.sh
@@ -63,6 +67,7 @@ Steps to deploy on Kubernetes
     11. Application is reachable on http://public-ip-copied-above/
 
 Steps to deploy using docker-compose
+
     1. unzip the zipped source code folder
     2. from the root, run ./docker-compose.sh
     3. This will make the application up and running with 2 records present in database
