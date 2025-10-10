@@ -25,7 +25,7 @@ def get_details():
 
 app = Flask(__name__)
 @app.route('/')
-def home():
+def home(): #jk
     fetchdata=get_details()
     return render_template('home.html',data=fetchdata)
 
