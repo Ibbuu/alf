@@ -5,6 +5,8 @@ import os
 
 print(9/0)
 
+a = "sh" + 0
+
 connection_pool = pooling.MySQLConnectionPool(pool_name="local_pool",
                                                   pool_size=5,
                                                   pool_reset_session=True,
