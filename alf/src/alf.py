@@ -2,8 +2,8 @@ from flask import Flask, render_template
 from mysql.connector import Error
 from mysql.connector import pooling
 import os
-#kkkkhfhf
-
+a = 0
+print(a/0)
 connection_pool = pooling.MySQLConnectionPool(pool_name="local_pool",
                                                   pool_size=5,
                                                   pool_reset_session=True,
